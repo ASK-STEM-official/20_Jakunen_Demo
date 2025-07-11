@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
-using Presentation.Forms;
+using Microsoft.Extensions.DependencyInjection;
+using SO_OMS.Presentation.Forms;
 
-namespace WinFormsApp
+
+namespace SO_OMS
 {
     static class Program
     {
@@ -11,7 +13,10 @@ namespace WinFormsApp
         {
             System.Windows.Forms.Application.EnableVisualStyles(); 
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false); 
-            System.Windows.Forms.Application.Run(new LoginForm());
+            
+            var provider = BootStrapper.BuildServiceProvider();
+            var loginForm = provider.GetRequiredService<LoginForm>();
+            System.Windows.Forms.Application.Run(loginForm);
         }
     }
 }

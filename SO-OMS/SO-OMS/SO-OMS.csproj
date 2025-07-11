@@ -53,6 +53,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -62,10 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\Interfaces\IAdminRepository.cs" />
+    <Compile Include="Application\Interfaces\IPasswordHasher.cs" />
     <Compile Include="Application\Usecases\LoginUseCase.cs" />
+    <Compile Include="BootStrapper.cs" />
     <Compile Include="Domain\Entities\Admin.cs" />
     <Compile Include="Infrastructure\Repositories\SqlAdminRepository.cs" />
     <Compile Include="Infrastructure\Security\PasswordHasher.cs" />
+    <Compile Include="Infrastructure\Utils\ConfigManager.cs" />
     <Compile Include="Presentation\Forms\DashboardForm.cs">
       <SubType>Form</SubType>
     </Compile>

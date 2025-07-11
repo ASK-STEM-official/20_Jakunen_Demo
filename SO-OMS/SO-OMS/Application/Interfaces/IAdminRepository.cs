@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
+﻿using SO_OMS.Domain.Entities;
 
-namespace Application.Interfaces
+namespace SO_OMS.Application.Interfaces
 {
     public interface IAdminRepository
     {

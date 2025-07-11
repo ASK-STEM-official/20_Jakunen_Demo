@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Windows.Forms;
-using Infrastructure.Repositories;
-using Application.UseCases;
-using Presentation.ViewModels;
-using Presentation.Forms;
-using SO_OMS.Presentation.Forms; // DashboardFormが存在する名前空間を追加
+using SO_OMS.Infrastructure.Repositories;
+using SO_OMS.Application.UseCases;
+using SO_OMS.Presentation.ViewModels;
+using SO_OMS.Presentation.Forms;
 
-namespace Presentation.Forms
+namespace SO_OMS.Presentation.Forms
 {
     public partial class LoginForm : Form
     {
@@ -20,17 +19,14 @@ namespace Presentation.Forms
         private TextBox txtPassword;
         private Button btnLogin;
         private LoginViewModel _viewModel;
+        private readonly LoginUseCase _loginUseCase;
 
-        public LoginForm()
+        // コンストラクタ
+        public LoginForm(LoginUseCase loginUseCase)
         {
+            _loginUseCase = loginUseCase;
             InitializeComponent();
-
-            // DB接続とViewModelの初期化
-            var connection = new SqlConnection("Server=localhost;Database=OliveShopDB;Trusted_Connection=True;");
-            connection.Open();
-            var repo = new SqlAdminRepository(connection);
-            var useCase = new LoginUseCase(repo);
-            _viewModel = new LoginViewModel(useCase);
+            _viewModel = new LoginViewModel(_loginUseCase);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -43,7 +39,7 @@ namespace Presentation.Forms
             if (result)
             {
                 MessageBox.Show("ログイン成功！");
-                var dashboard = new DashboardForm(); // DashboardFormが正しく参照されるように修正
+                var dashboard = new DashboardForm();
                 dashboard.Show();
                 this.Hide();
                 // ダッシュボードが閉じられたらアプリ終了
