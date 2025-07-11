@@ -4,7 +4,8 @@ using System.Windows.Forms;
 using Infrastructure.Repositories;
 using Application.UseCases;
 using Presentation.ViewModels;
-using Presentation.Forms; // DashboardFormが存在する名前空間を追加
+using Presentation.Forms;
+using SO_OMS.Presentation.Forms; // DashboardFormが存在する名前空間を追加
 
 namespace Presentation.Forms
 {
@@ -42,7 +43,7 @@ namespace Presentation.Forms
             if (result)
             {
                 MessageBox.Show("ログイン成功！");
-                var dashboard = new DashboardForm();
+                var dashboard = new DashboardForm(); // DashboardFormが正しく参照されるように修正
                 dashboard.Show();
                 this.Hide();
                 // ダッシュボードが閉じられたらアプリ終了
