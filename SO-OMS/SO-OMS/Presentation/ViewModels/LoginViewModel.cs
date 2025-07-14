@@ -1,8 +1,8 @@
-﻿using Application.UseCases;
+﻿using SO_OMS.Application.UseCases;
 using System;
 using System.ComponentModel;
 
-namespace Presentation.ViewModels
+namespace SO_OMS.Presentation.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {

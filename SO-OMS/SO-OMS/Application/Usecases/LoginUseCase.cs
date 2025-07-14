@@ -1,17 +1,19 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
-using Infrastructure.Security;
+﻿using SO_OMS.Application.Interfaces;
+using SO_OMS.Domain.Entities;
+using SO_OMS.Infrastructure.Security;
 using System;
 
-namespace Application.UseCases
+namespace SO_OMS.Application.UseCases
 {
     public class LoginUseCase
     {
         private readonly IAdminRepository _adminRepository;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public LoginUseCase(IAdminRepository adminRepository)
+        public LoginUseCase(IAdminRepository adminRepository, IPasswordHasher passwordHasher)
         {
             _adminRepository = adminRepository;
+            _passwordHasher = passwordHasher;
         }
 
         public Admin Execute(string username, string password)
@@ -20,7 +22,7 @@ namespace Application.UseCases
             if (admin == null)
                 throw new UnauthorizedAccessException("ユーザーが見つかりません。");
 
-            if (!PasswordHasher.Verify(password, admin.PasswordHash))
+            if (!_passwordHasher.Verify(password, admin.PasswordHash))
                 throw new UnauthorizedAccessException("パスワードが一致しません。");
 
             return admin;

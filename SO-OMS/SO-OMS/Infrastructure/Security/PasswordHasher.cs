@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace Infrastructure.Security
+namespace SO_OMS.Infrastructure.Security
 {
-    public static class PasswordHasher
+    public class PasswordHasher : IPasswordHasher
     {
         private const int SaltSize = 16;
         private const int HashSize = 32;
         private const int Iterations = 10000;
 
-        public static string Hash(string password)
+        public string Hash(string password)
         {
             var salt = new byte[SaltSize];
             using (var rng = RandomNumberGenerator.Create())
@@ -27,7 +27,7 @@ namespace Infrastructure.Security
             return Convert.ToBase64String(hashBytes);
         }
 
-        public static bool Verify(string password, string storedHash)
+        public bool Verify(string password, string storedHash)
         {
             var hashBytes = Convert.FromBase64String(storedHash);
             if (hashBytes.Length != SaltSize + HashSize) return false;

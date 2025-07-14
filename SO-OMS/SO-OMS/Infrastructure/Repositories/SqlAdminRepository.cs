@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using SO_OMS.Application.Interfaces;
+using SO_OMS.Domain.Entities;
 using System;
 using System.Data.SqlClient;
 
-namespace Infrastructure.Repositories
+namespace SO_OMS.Infrastructure.Repositories
 {
     public class SqlAdminRepository : IAdminRepository
     {
