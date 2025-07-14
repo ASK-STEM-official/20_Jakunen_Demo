@@ -19,7 +19,8 @@ namespace SO_OMS.Presentation.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            var productListForm = new ProductListForm();
+            productListForm.ShowDialog();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
