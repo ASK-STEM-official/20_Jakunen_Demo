@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SO_OMS.Application.Interfaces;
@@ -10,7 +11,7 @@ namespace SO_OMS.Presentation.Forms
     public partial class DashboardForm : Form
     {
         private readonly IAlertLogRepository _alertRepository;
-        private readonly DashboardAlertViewModel _alertViewModel = new DashboardAlertViewModel();
+        private List<DashboardAlertViewModel> _alertViewModels;
 
         public DashboardForm(IAlertLogRepository alertRepository)
         {
@@ -19,18 +20,12 @@ namespace SO_OMS.Presentation.Forms
             Load += DashboardForm_Load;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var productListForm = new ProductListForm();
-            productListForm.ShowDialog();
-        }
-
         private void DashboardForm_Load(object sender, EventArgs e)
         {
             dataGridView1.AutoGenerateColumns = false;
 
-            _alertViewModel.Alerts = _alertRepository.GetAll();
-            dataGridView1.DataSource = _alertViewModel.Alerts;
+            _alertViewModels = _alertRepository.GetAll();
+            dataGridView1.DataSource = _alertViewModels;
 
             var comboCol = (DataGridViewComboBoxColumn)dataGridView1.Columns["IsResolved"];
             comboCol.DisplayMember = "Text";
@@ -38,10 +33,9 @@ namespace SO_OMS.Presentation.Forms
             comboCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton;
             comboCol.DataSource = new[]
             {
-                 new { Text = "未対応", Value = false },
+                new { Text = "未対応", Value = false },
                 new { Text = "対応済み", Value = true }
             };
-
 
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
             dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
@@ -59,12 +53,20 @@ namespace SO_OMS.Presentation.Forms
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView1.Columns[e.ColumnIndex].Name == "IsResolvedColumn")
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "IsResolved")
             {
                 var row = dataGridView1.Rows[e.RowIndex];
-                if (row.DataBoundItem is AlertLog alert)
+                if (row.DataBoundItem is DashboardAlertViewModel vm)
                 {
-                    _alertRepository.Update(alert);
+                    var entity = new AlertLog
+                    {
+                        AlertID = vm.AlertID,
+                        ProductID = vm.ProductID,
+                        StockAtAlert = vm.StockAtAlert,
+                        DetectedAt = vm.DetectedAt,
+                        IsResolved = vm.IsResolved
+                    };
+                    _alertRepository.Update(entity);
                 }
             }
         }
@@ -72,7 +74,7 @@ namespace SO_OMS.Presentation.Forms
         private void dataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
             var row = dataGridView1.Rows[e.RowIndex];
-            if (row.DataBoundItem is AlertLog alert && !alert.IsResolved)
+            if (row.DataBoundItem is DashboardAlertViewModel vm && !vm.IsResolved)
             {
                 row.DefaultCellStyle.BackColor = Color.LightPink;
             }
@@ -80,6 +82,12 @@ namespace SO_OMS.Presentation.Forms
             {
                 row.DefaultCellStyle.BackColor = Color.White;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var productListForm = new ProductListForm();
+            productListForm.ShowDialog();
         }
     }
 }

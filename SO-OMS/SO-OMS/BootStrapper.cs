@@ -26,7 +26,7 @@ namespace SO_OMS
 
             // Repository  
             services.AddSingleton<IAdminRepository, SqlAdminRepository>();
-            services.AddSingleton<IAlertLogRepository, MockAlertLogRepository>();
+            services.AddSingleton<IAlertLogRepository, SqlAlertLogRepository>();
             // Services  
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
