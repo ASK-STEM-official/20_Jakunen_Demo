@@ -4,7 +4,6 @@ using SO_OMS.Presentation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace SO_OMS.Infrastructure.Repositories
@@ -64,10 +63,7 @@ namespace SO_OMS.Infrastructure.Repositories
 
             command.Parameters.AddWithValue("@IsResolved", alertLog.IsResolved);
             command.Parameters.AddWithValue("@AlertID", alertLog.AlertID);
-
-            int rows = command.ExecuteNonQuery(); // ← 必ず rows に代入する
-
-            MessageBox.Show($"更新件数: {rows} (AlertID={alertLog.AlertID})");
+            command.ExecuteNonQuery();
 
         }
     }
