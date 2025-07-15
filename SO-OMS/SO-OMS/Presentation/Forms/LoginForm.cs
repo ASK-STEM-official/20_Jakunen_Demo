@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using Microsoft.Extensions.DependencyInjection;
 using SO_OMS.Infrastructure.Repositories;
 using SO_OMS.Application.UseCases;
 using SO_OMS.Presentation.ViewModels;
@@ -20,14 +21,18 @@ namespace SO_OMS.Presentation.Forms
         private Button btnLogin;
         private LoginViewModel _viewModel;
         private readonly LoginUseCase _loginUseCase;
+        private readonly IServiceProvider _provider;
 
-        // コンストラクタ
-        public LoginForm(LoginUseCase loginUseCase)
+
+        public LoginForm(LoginUseCase loginUseCase, IServiceProvider provider)
         {
             _loginUseCase = loginUseCase;
+            _provider = provider;
             InitializeComponent();
             _viewModel = new LoginViewModel(_loginUseCase);
         }
+
+
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
@@ -39,12 +44,12 @@ namespace SO_OMS.Presentation.Forms
             if (result)
             {
                 MessageBox.Show("ログイン成功！");
-                var dashboard = new DashboardForm();
+                var dashboard = _provider.GetRequiredService<DashboardForm>();
                 dashboard.Show();
                 this.Hide();
-                // ダッシュボードが閉じられたらアプリ終了
                 dashboard.FormClosed += (s, args) => this.Close();
             }
+
             else
             {
                 MessageBox.Show("ログイン失敗: " + _viewModel.ErrorMessage,

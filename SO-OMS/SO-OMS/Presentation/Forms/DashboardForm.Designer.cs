@@ -32,7 +32,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.ProductID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductStock = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockAtAlert = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsResolved = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -58,21 +58,20 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProductID,
             this.ProductName,
-            this.ProductStock,
+            this.StockAtAlert,
             this.IsResolved});
             this.dataGridView1.Location = new System.Drawing.Point(400, 30);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.Size = new System.Drawing.Size(388, 395);
+            this.dataGridView1.Size = new System.Drawing.Size(469, 395);
             this.dataGridView1.TabIndex = 4;
+            this.dataGridView1.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridView1_RowPrePaint);
             // 
             // ProductID
             // 
             this.ProductID.DataPropertyName = "ProductID";
             this.ProductID.HeaderText = "商品ID";
             this.ProductID.Name = "ProductID";
-            this.ProductID.ReadOnly = true;
             this.ProductID.Width = 70;
             // 
             // ProductName
@@ -80,22 +79,19 @@
             this.ProductName.DataPropertyName = "ProductName";
             this.ProductName.HeaderText = "商品名";
             this.ProductName.Name = "ProductName";
-            this.ProductName.ReadOnly = true;
             // 
-            // ProductStock
+            // StockAtAlert
             // 
-            this.ProductStock.DataPropertyName = "ProductStock";
-            this.ProductStock.HeaderText = "在庫数";
-            this.ProductStock.Name = "ProductStock";
-            this.ProductStock.ReadOnly = true;
-            this.ProductStock.Width = 70;
+            this.StockAtAlert.DataPropertyName = "StockAtAlert";
+            this.StockAtAlert.HeaderText = "在庫数";
+            this.StockAtAlert.Name = "StockAtAlert";
+            this.StockAtAlert.Width = 70;
             // 
             // IsResolved
             // 
             this.IsResolved.DataPropertyName = "IsResolved";
             this.IsResolved.HeaderText = "対応状況";
             this.IsResolved.Name = "IsResolved";
-            this.IsResolved.ReadOnly = true;
             // 
             // button2
             // 
@@ -121,13 +117,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(881, 450);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.Name = "DashboardForm";
             this.Text = "ダッシュボード";
+            this.Load += new System.EventHandler(this.DashboardForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -137,11 +134,11 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductStock;
-        private System.Windows.Forms.DataGridViewComboBoxColumn IsResolved;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StockAtAlert;
+        private System.Windows.Forms.DataGridViewComboBoxColumn IsResolved;
     }
 }

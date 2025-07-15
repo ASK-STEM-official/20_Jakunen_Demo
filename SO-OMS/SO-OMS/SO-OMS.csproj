@@ -63,12 +63,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Interfaces\IProductRepository.cs" />
     <Compile Include="Application\Interfaces\IAdminRepository.cs" />
+    <Compile Include="Application\Interfaces\IAlertLogRepository.cs" />
     <Compile Include="Application\Interfaces\IPasswordHasher.cs" />
     <Compile Include="Application\Usecases\LoginUseCase.cs" />
     <Compile Include="BootStrapper.cs" />
     <Compile Include="Domain\Entities\Admin.cs" />
+    <Compile Include="Domain\Entities\AlertLog.cs" />
+    <Compile Include="Domain\Entities\Product.cs" />
+    <Compile Include="Infrastructure\Repositories\MockAlertLogRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SqlAdminRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\SqlAlertLogRepository.cs" />
     <Compile Include="Infrastructure\Security\PasswordHasher.cs" />
     <Compile Include="Infrastructure\Utils\ConfigManager.cs" />
     <Compile Include="Presentation\Forms\DashboardForm.cs">
@@ -86,7 +92,9 @@
     <Compile Include="Presentation\Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Presentation\ViewModels\DashboardAlertViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\ProductListViewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Presentation\Forms\DashboardForm.resx">
