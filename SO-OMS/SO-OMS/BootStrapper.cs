@@ -27,6 +27,7 @@ namespace SO_OMS
             // Repository  
             services.AddSingleton<IAdminRepository, SqlAdminRepository>();
             services.AddSingleton<IAlertLogRepository, SqlAlertLogRepository>();
+            services.AddSingleton<IProductRepository, SqlProductRepository>();
             // Services  
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
@@ -36,6 +37,7 @@ namespace SO_OMS
             // Forms
             services.AddSingleton<LoginForm>();
             services.AddSingleton<DashboardForm>();
+            services.AddSingleton<ProductListForm>();
 
             return services.BuildServiceProvider();
         }

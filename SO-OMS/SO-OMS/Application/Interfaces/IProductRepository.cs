@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using SO_OMS.Domain.Entities;
+﻿using SO_OMS.Domain.Entities;
+using System.Collections.Generic;
 
-namespace SO_OMS.Application.Interfaces
+public interface IProductRepository
 {
-    public interface IProductRepository
-    {
-        IEnumerable<Product> GetAll();
-        Product FindById(int productId);
-        IEnumerable<Product> GetLowStockProducts(); // しきい値未満の商品
-    }
+    List<Product> Search(string productIdKeyword, string productNameKeyword, int? categoryId, bool isPublishedOnly);
+    Product GetById(int productId);
+    void Insert(Product product);
+    void Update(Product product);
 }
