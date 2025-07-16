@@ -11,13 +11,15 @@ namespace SO_OMS.Presentation.Forms
     public partial class DashboardForm : Form
     {
         private readonly IAlertLogRepository _alertRepository;
+        private readonly IProductRepository _productRepository;
         private List<DashboardAlertViewModel> _alertViewModels;
 
-        public DashboardForm(IAlertLogRepository alertRepository)
+        public DashboardForm(IAlertLogRepository alertRepository, IProductRepository productRepo)
         {
             InitializeComponent();
             _alertRepository = alertRepository;
             Load += DashboardForm_Load;
+            _productRepository = productRepo;
         }
 
         private void DashboardForm_Load(object sender, EventArgs e)
@@ -86,7 +88,7 @@ namespace SO_OMS.Presentation.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var productListForm = new ProductListForm();
+            var productListForm = new ProductListForm(_productRepository);
             productListForm.ShowDialog();
         }
     }

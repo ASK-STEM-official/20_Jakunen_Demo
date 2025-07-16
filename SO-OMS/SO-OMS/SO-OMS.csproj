@@ -72,9 +72,9 @@
     <Compile Include="Domain\Entities\Admin.cs" />
     <Compile Include="Domain\Entities\AlertLog.cs" />
     <Compile Include="Domain\Entities\Product.cs" />
-    <Compile Include="Infrastructure\Repositories\MockAlertLogRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SqlAdminRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SqlAlertLogRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\SqlProductRepository.cs" />
     <Compile Include="Infrastructure\Security\PasswordHasher.cs" />
     <Compile Include="Infrastructure\Utils\ConfigManager.cs" />
     <Compile Include="Presentation\Forms\DashboardForm.cs">
