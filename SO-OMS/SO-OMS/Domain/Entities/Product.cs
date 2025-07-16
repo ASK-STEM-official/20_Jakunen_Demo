@@ -8,7 +8,7 @@
         public int Stock { get; }
         public int CategoryID { get; }
         public int? AlertThreshold { get; }
-        public string Description { get; }
+        public string Description { get; } // null許容
         public bool IsPublished { get; }
 
         public Product(int productID, string productName, decimal price, int stock, int categoryID, int? alertThreshold, string description, bool isPublished)
@@ -19,7 +19,7 @@
             Stock = stock;
             CategoryID = categoryID;
             AlertThreshold = alertThreshold;
-            Description = description;
+            Description = description; // null許容
             IsPublished = isPublished;
         }
     }

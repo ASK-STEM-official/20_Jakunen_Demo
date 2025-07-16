@@ -21,5 +21,8 @@ namespace SO_OMS.Presentation.ViewModels
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public bool IsPublished { get; set; }
+
+        public string PublishStatus => IsPublished ? "o•i’†" : "’â~’†";
+
     }
 } 
