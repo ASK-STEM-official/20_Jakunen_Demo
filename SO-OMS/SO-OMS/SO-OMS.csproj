@@ -83,6 +83,12 @@
     <Compile Include="Presentation\Forms\DashboardForm.Designer.cs">
       <DependentUpon>DashboardForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Forms\ProductRegisterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Forms\ProductRegisterForm.Designer.cs">
+      <DependentUpon>ProductRegisterForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Forms\ProductDetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Forms\ProductListForm.resx">
       <DependentUpon>ProductListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Forms\ProductRegisterForm.resx">
+      <DependentUpon>ProductRegisterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
