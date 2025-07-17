@@ -109,6 +109,10 @@ namespace SO_OMS.Presentation.Forms
             }
         }
 
-
+        private void RegisterButton_Click(object sender, EventArgs e)
+        {
+            var registerForm = new ProductRegisterForm(_productRepository);
+            registerForm.ShowDialog();
+        }
     }
 }

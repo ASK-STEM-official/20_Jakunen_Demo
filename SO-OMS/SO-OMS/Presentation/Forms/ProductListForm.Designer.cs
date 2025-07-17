@@ -188,6 +188,7 @@
             this.RegisterButton.TabIndex = 7;
             this.RegisterButton.Text = "新規登録";
             this.RegisterButton.UseVisualStyleBackColor = true;
+            this.RegisterButton.Click += new System.EventHandler(this.RegisterButton_Click);
             // 
             // label1
             // 
