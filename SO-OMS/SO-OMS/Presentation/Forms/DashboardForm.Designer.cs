@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.ProductID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StockAtAlert = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IsResolved = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.ProductID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DetectedAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockAtAlert = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsResolved = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,7 +59,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProductID,
-            this.ProductName,
+            this.DetectedAt,
             this.StockAtAlert,
             this.IsResolved});
             this.dataGridView1.Location = new System.Drawing.Point(400, 62);
@@ -67,32 +68,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(445, 363);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridView1_RowPrePaint);
-            // 
-            // ProductID
-            // 
-            this.ProductID.DataPropertyName = "ProductID";
-            this.ProductID.HeaderText = "商品ID";
-            this.ProductID.Name = "ProductID";
-            this.ProductID.Width = 70;
-            // 
-            // ProductName
-            // 
-            this.ProductName.DataPropertyName = "ProductName";
-            this.ProductName.HeaderText = "商品名";
-            this.ProductName.Name = "ProductName";
-            // 
-            // StockAtAlert
-            // 
-            this.StockAtAlert.DataPropertyName = "StockAtAlert";
-            this.StockAtAlert.HeaderText = "在庫数";
-            this.StockAtAlert.Name = "StockAtAlert";
-            this.StockAtAlert.Width = 70;
-            // 
-            // IsResolved
-            // 
-            this.IsResolved.DataPropertyName = "IsResolved";
-            this.IsResolved.HeaderText = "対応状況";
-            this.IsResolved.Name = "IsResolved";
             // 
             // button2
             // 
@@ -124,6 +99,35 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "在庫アラート一覧";
             // 
+            // ProductID
+            // 
+            this.ProductID.DataPropertyName = "ProductID";
+            this.ProductID.HeaderText = "商品ID";
+            this.ProductID.Name = "ProductID";
+            this.ProductID.Width = 70;
+            // 
+            // DetectedAt
+            // 
+            this.DetectedAt.DataPropertyName = "DetectedAt";
+            dataGridViewCellStyle1.Format = "yyyy/MM/dd HH:mm";
+            this.DetectedAt.DefaultCellStyle = dataGridViewCellStyle1;
+            this.DetectedAt.HeaderText = "発生日時";
+            this.DetectedAt.Name = "DetectedAt";
+            this.DetectedAt.Width = 120;
+            // 
+            // StockAtAlert
+            // 
+            this.StockAtAlert.DataPropertyName = "StockAtAlert";
+            this.StockAtAlert.HeaderText = "在庫数";
+            this.StockAtAlert.Name = "StockAtAlert";
+            this.StockAtAlert.Width = 70;
+            // 
+            // IsResolved
+            // 
+            this.IsResolved.DataPropertyName = "IsResolved";
+            this.IsResolved.HeaderText = "対応状況";
+            this.IsResolved.Name = "IsResolved";
+            // 
             // DashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -149,10 +153,10 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DetectedAt;
         private System.Windows.Forms.DataGridViewTextBoxColumn StockAtAlert;
         private System.Windows.Forms.DataGridViewComboBoxColumn IsResolved;
-        private System.Windows.Forms.Label label1;
     }
 }
