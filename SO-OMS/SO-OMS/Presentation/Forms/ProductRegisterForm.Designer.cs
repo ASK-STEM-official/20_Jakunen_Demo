@@ -39,7 +39,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonRegister = new System.Windows.Forms.Button();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
@@ -96,11 +95,10 @@
             // 
             this.labelProductID.AutoSize = true;
             this.labelProductID.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.labelProductID.Location = new System.Drawing.Point(165, 55);
+            this.labelProductID.Location = new System.Drawing.Point(165, 8);
             this.labelProductID.Name = "labelProductID";
-            this.labelProductID.Size = new System.Drawing.Size(53, 16);
+            this.labelProductID.Size = new System.Drawing.Size(0, 16);
             this.labelProductID.TabIndex = 35;
-            this.labelProductID.Text = "商品ID";
             // 
             // label8
             // 
@@ -136,7 +134,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.label4.Location = new System.Drawing.Point(62, 209);
+            this.label4.Location = new System.Drawing.Point(62, 162);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 16);
             this.label4.TabIndex = 31;
@@ -146,7 +144,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.label3.Location = new System.Drawing.Point(62, 158);
+            this.label3.Location = new System.Drawing.Point(62, 111);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(91, 16);
             this.label3.TabIndex = 30;
@@ -156,21 +154,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.label2.Location = new System.Drawing.Point(62, 102);
+            this.label2.Location = new System.Drawing.Point(62, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 16);
             this.label2.TabIndex = 29;
             this.label2.Text = "商品名 :";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.label1.Location = new System.Drawing.Point(62, 55);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 16);
-            this.label1.TabIndex = 28;
-            this.label1.Text = "商品ID :";
             // 
             // buttonCancel
             // 
@@ -194,7 +182,7 @@
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(168, 209);
+            this.textBoxDescription.Location = new System.Drawing.Point(168, 162);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(229, 106);
@@ -203,14 +191,14 @@
             // comboBoxCategory
             // 
             this.comboBoxCategory.FormattingEnabled = true;
-            this.comboBoxCategory.Location = new System.Drawing.Point(168, 159);
+            this.comboBoxCategory.Location = new System.Drawing.Point(168, 112);
             this.comboBoxCategory.Name = "comboBoxCategory";
             this.comboBoxCategory.Size = new System.Drawing.Size(121, 20);
             this.comboBoxCategory.TabIndex = 21;
             // 
             // textBoxProductName
             // 
-            this.textBoxProductName.Location = new System.Drawing.Point(168, 103);
+            this.textBoxProductName.Location = new System.Drawing.Point(168, 56);
             this.textBoxProductName.Name = "textBoxProductName";
             this.textBoxProductName.Size = new System.Drawing.Size(100, 19);
             this.textBoxProductName.TabIndex = 20;
@@ -231,7 +219,6 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonRegister);
             this.Controls.Add(this.textBoxDescription);
@@ -260,7 +247,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonRegister;
         private System.Windows.Forms.TextBox textBoxDescription;
