@@ -89,5 +89,26 @@ namespace SO_OMS.Presentation.Forms
 
             public override string ToString() => Display;
         }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "ProductDetail")
+            {
+                if (dataGridView1.Rows[e.RowIndex].DataBoundItem is ProductViewModel vm)
+                {
+                    var product = _productRepository.GetById(vm.ProductID);
+                    if (product != null)
+                    {
+                        var detailForm = new ProductDetailForm(_productRepository, product);
+                        detailForm.ShowDialog();
+                        LoadProducts();
+                    }
+                }
+            }
+        }
+
+
     }
 }
