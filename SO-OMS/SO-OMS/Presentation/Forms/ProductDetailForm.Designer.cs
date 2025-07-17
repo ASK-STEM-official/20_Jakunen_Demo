@@ -171,9 +171,8 @@
             this.labelProductID.Font = new System.Drawing.Font("MS UI Gothic", 12F);
             this.labelProductID.Location = new System.Drawing.Point(157, 59);
             this.labelProductID.Name = "labelProductID";
-            this.labelProductID.Size = new System.Drawing.Size(53, 16);
+            this.labelProductID.Size = new System.Drawing.Size(0, 16);
             this.labelProductID.TabIndex = 18;
-            this.labelProductID.Text = "商品ID";
             // 
             // numericPrice
             // 
