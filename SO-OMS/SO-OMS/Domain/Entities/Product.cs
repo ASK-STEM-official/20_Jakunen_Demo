@@ -2,14 +2,16 @@
 {
     public class Product
     {
-        public int ProductID { get; }
-        public string ProductName { get; }
-        public decimal Price { get; }
-        public int Stock { get; }
-        public int CategoryID { get; }
-        public int? AlertThreshold { get; }
-        public string Description { get; } // null許容
-        public bool IsPublished { get; }
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public decimal Price { get; set; }
+        public int Stock { get; set; }
+        public int CategoryID { get; set; }
+        public int? AlertThreshold { get; set; }
+        public string Description { get; set; }  // null許容
+        public bool IsPublished { get; set; }
+
+        public Product() { } // パラメータレスコンストラクタ（EF用など）
 
         public Product(int productID, string productName, decimal price, int stock, int categoryID, int? alertThreshold, string description, bool isPublished)
         {
@@ -19,7 +21,7 @@
             Stock = stock;
             CategoryID = categoryID;
             AlertThreshold = alertThreshold;
-            Description = description; // null許容
+            Description = description;
             IsPublished = isPublished;
         }
     }
