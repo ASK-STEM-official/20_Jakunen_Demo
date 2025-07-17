@@ -16,11 +16,12 @@ namespace SO_OMS.Presentation.Forms
             _productRepository = productRepository;
             _product = product;
             Load += ProductDetailForm_Load;
+            buttonSave.Click += buttonSave_Click;
+            buttonClose.Click += buttonClose_Click;
         }
 
         private void ProductDetailForm_Load(object sender, EventArgs e)
         {
-            // 初期表示
             labelProductID.Text = _product.ProductID.ToString();
             textBoxProductName.Text = _product.ProductName;
             textBoxDescription.Text = _product.Description;
@@ -29,11 +30,10 @@ namespace SO_OMS.Presentation.Forms
             numericThreshold.Value = _product.AlertThreshold ?? 0;
             checkBoxPublished.Checked = _product.IsPublished;
 
-            // カテゴリ
             comboBoxCategory.Items.Clear();
             comboBoxCategory.Items.Add(new ComboBoxItem("食品", 1));
             comboBoxCategory.Items.Add(new ComboBoxItem("雑貨", 2));
-            comboBoxCategory.Items.Add(new ComboBoxItem("その他", 99));
+            comboBoxCategory.Items.Add(new ComboBoxItem("その他", 3));
 
             foreach (ComboBoxItem item in comboBoxCategory.Items)
             {
@@ -53,13 +53,31 @@ namespace SO_OMS.Presentation.Forms
                 return;
             }
 
+            if (numericPrice.Value <= 0)
+            {
+                MessageBox.Show("価格は1円以上で入力してください。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (numericStock.Value < 0)
+            {
+                MessageBox.Show("在庫数は0以上を入力してください。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (numericThreshold.Value < 0)
+            {
+                MessageBox.Show("在庫アラートしきい値は0以上を入力してください。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             _product.ProductName = textBoxProductName.Text.Trim();
             _product.Description = textBoxDescription.Text.Trim();
             _product.Price = numericPrice.Value;
             _product.Stock = (int)numericStock.Value;
             _product.AlertThreshold = (int?)numericThreshold.Value;
             _product.IsPublished = checkBoxPublished.Checked;
-            _product.CategoryID = (comboBoxCategory.SelectedItem as ComboBoxItem)?.Value ?? 99;
+            _product.CategoryID = (comboBoxCategory.SelectedItem as ComboBoxItem)?.Value ?? 3;
 
             try
             {
@@ -73,7 +91,7 @@ namespace SO_OMS.Presentation.Forms
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void buttonClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -92,20 +110,12 @@ namespace SO_OMS.Presentation.Forms
             public override string ToString() => Display;
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void label6_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void textBox6_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void textBoxDescription_TextChanged(object sender, EventArgs e)
         {
