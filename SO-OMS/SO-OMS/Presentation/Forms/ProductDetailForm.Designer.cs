@@ -31,8 +31,8 @@
             this.textBoxProductName = new System.Windows.Forms.TextBox();
             this.comboBoxCategory = new System.Windows.Forms.ComboBox();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonClose = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -74,25 +74,25 @@
             this.textBoxDescription.TabIndex = 3;
             this.textBoxDescription.TextChanged += new System.EventHandler(this.textBoxDescription_TextChanged);
             // 
-            // button1
+            // buttonSave
             // 
-            this.button1.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.button1.Location = new System.Drawing.Point(244, 368);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(106, 34);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "保存";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonSave.Font = new System.Drawing.Font("MS UI Gothic", 12F);
+            this.buttonSave.Location = new System.Drawing.Point(244, 368);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(106, 34);
+            this.buttonSave.TabIndex = 8;
+            this.buttonSave.Text = "保存";
+            this.buttonSave.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // buttonClose
             // 
-            this.button2.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.button2.Location = new System.Drawing.Point(425, 368);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(106, 34);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "閉じる";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonClose.Font = new System.Drawing.Font("MS UI Gothic", 12F);
+            this.buttonClose.Location = new System.Drawing.Point(425, 368);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Size = new System.Drawing.Size(106, 34);
+            this.buttonClose.TabIndex = 9;
+            this.buttonClose.Text = "閉じる";
+            this.buttonClose.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -224,8 +224,8 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonClose);
+            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxDescription);
             this.Controls.Add(this.comboBoxCategory);
             this.Controls.Add(this.textBoxProductName);
@@ -243,8 +243,8 @@
         private System.Windows.Forms.TextBox textBoxProductName;
         private System.Windows.Forms.ComboBox comboBoxCategory;
         private System.Windows.Forms.TextBox textBoxDescription;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
