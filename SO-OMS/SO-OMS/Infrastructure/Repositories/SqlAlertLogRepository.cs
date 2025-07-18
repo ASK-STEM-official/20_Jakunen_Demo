@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using SO_OMS.Application.Interfaces;
 using SO_OMS.Domain.Entities;
 using SO_OMS.Presentation.ViewModels;
-using System.Windows.Forms;
 
 namespace SO_OMS.Infrastructure.Repositories
 {
@@ -75,7 +74,6 @@ namespace SO_OMS.Infrastructure.Repositories
 
         public void Add(AlertLog alert)
         {
-            MessageBox.Show("Adding alert log to the database...");
             using (var cmd = new SqlCommand("INSERT INTO AlertLogs (ProductID, StockAtAlert, DetectedAt, IsResolved) VALUES (@pid, @stock, @dt, @resolved)", _connection))
             {
                 cmd.Parameters.AddWithValue("@pid", alert.ProductID);

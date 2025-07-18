@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 using SO_OMS.Application.Interfaces;
 using SO_OMS.Domain.Entities;
+using SO_OMS.Domain.Services;
 
 namespace SO_OMS.Application.Usecases
 {
@@ -10,13 +9,17 @@ namespace SO_OMS.Application.Usecases
     {
         private readonly IProductRepository _productRepository;
         private readonly IAlertLogRepository _alertLogRepository;
+        private readonly StockAlertDomainService _stockAlertDomainService;
+
 
         public CheckProductStockAlertUseCase(
             IProductRepository productRepository,
-            IAlertLogRepository alertLogRepository)
+            IAlertLogRepository alertLogRepository,
+            StockAlertDomainService stockAlertDomainService)
         {
             _productRepository = productRepository;
             _alertLogRepository = alertLogRepository;
+            _stockAlertDomainService = stockAlertDomainService;
         }
 
         public void Execute()
@@ -25,9 +28,7 @@ namespace SO_OMS.Application.Usecases
 
             foreach (var product in allProducts)
             {
-                if (!product.AlertThreshold.HasValue) continue;
-
-                if (product.Stock >= product.AlertThreshold.Value) continue;
+                if (!_stockAlertDomainService.NeedsStockAlert(product)) continue;
 
                 var latest = _alertLogRepository.GetLatestAlert(product.ProductID);
 

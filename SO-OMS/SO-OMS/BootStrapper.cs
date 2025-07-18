@@ -2,6 +2,7 @@
 using SO_OMS.Application.Interfaces;
 using SO_OMS.Application.Usecases;
 using SO_OMS.Application.UseCases;
+using SO_OMS.Domain.Services;
 using SO_OMS.Infrastructure.Repositories;
 using SO_OMS.Infrastructure.Security;
 using SO_OMS.Infrastructure.Utils;
@@ -25,17 +26,18 @@ namespace SO_OMS
                 return connection;
             });
 
+            // DomainServices
+            services.AddSingleton<StockAlertDomainService>();
+
             // Repository  
             services.AddSingleton<IAdminRepository, SqlAdminRepository>();
             services.AddSingleton<IAlertLogRepository, SqlAlertLogRepository>();
             services.AddSingleton<IProductRepository, SqlProductRepository>();
-            // Services  
+            // Usecase  
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddTransient<LoadDashboardAlertsUseCase>();
             services.AddTransient<ResolveAlertUseCase>();
             services.AddTransient<CheckProductStockAlertUseCase>();
-
-            // UseCase
             services.AddSingleton<LoginUseCase>();
 
             // Forms
