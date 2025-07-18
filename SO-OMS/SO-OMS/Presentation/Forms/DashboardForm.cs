@@ -36,6 +36,8 @@ namespace SO_OMS.Presentation.Forms
         {
             dataGridView1.AutoGenerateColumns = false;
 
+            _checkAlertsUseCase.Execute();
+
             LoadAlerts();
 
             var comboCol = (DataGridViewComboBoxColumn)dataGridView1.Columns["IsResolved"];
@@ -93,17 +95,12 @@ namespace SO_OMS.Presentation.Forms
             }
         }
 
-        private void buttonReload_Click(object sender, EventArgs e)
-        {
-            _checkAlertsUseCase.Execute();
-            LoadAlerts();
-        }
-    
-
         private void button1_Click(object sender, EventArgs e)
         {
             var productListForm = new ProductListForm(_productRepository);
             productListForm.ShowDialog();
+            _checkAlertsUseCase.Execute();
+            LoadAlerts();
         }
     }
 }

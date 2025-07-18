@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using SO_OMS.Application.Interfaces;
 using SO_OMS.Domain.Entities;
 using SO_OMS.Presentation.ViewModels;
+using System.Windows.Forms;
 
 namespace SO_OMS.Infrastructure.Repositories
 {
@@ -74,6 +75,7 @@ namespace SO_OMS.Infrastructure.Repositories
 
         public void Add(AlertLog alert)
         {
+            MessageBox.Show("Adding alert log to the database...");
             using (var cmd = new SqlCommand("INSERT INTO AlertLogs (ProductID, StockAtAlert, DetectedAt, IsResolved) VALUES (@pid, @stock, @dt, @resolved)", _connection))
             {
                 cmd.Parameters.AddWithValue("@pid", alert.ProductID);
@@ -86,24 +88,36 @@ namespace SO_OMS.Infrastructure.Repositories
 
         public AlertLog GetLatestAlert(int productId)
         {
-            using (var cmd = new SqlCommand("SELECT TOP 1 AlertID, ProductID, StockAtAlert, DetectedAt, IsResolved FROM AlertLogs WHERE ProductID = @pid ORDER BY DetectedAt DESC", _connection))
+            const string sql = @"
+            SELECT TOP 1 * 
+            FROM AlertLogs
+            WHERE ProductID = @productId
+            ORDER BY DetectedAt DESC
+        ";
+
+            using (var command = new SqlCommand(sql, _connection))
             {
-                cmd.Parameters.AddWithValue("@pid", productId);
-                using (var reader = cmd.ExecuteReader())
+                command.Parameters.AddWithValue("@productId", productId);
+
+                using (var reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
                         return new AlertLog
                         {
-                            AlertID = reader.GetInt32(0),
-                            ProductID = reader.GetInt32(1),
-                            StockAtAlert = reader.GetInt32(2),
-                            DetectedAt = reader.GetDateTime(3),
-                            IsResolved = reader.GetBoolean(4)
+                            AlertID = reader.GetInt32(reader.GetOrdinal("AlertID")),
+                            ProductID = reader.GetInt32(reader.GetOrdinal("ProductID")),
+                            DetectedAt = reader.GetDateTime(reader.GetOrdinal("DetectedAt")),
+                            StockAtAlert = reader.IsDBNull(reader.GetOrdinal("StockAtAlert"))
+                            ? 0 // NULLだったら 0 扱い
+                            : reader.GetInt32(reader.GetOrdinal("StockAtAlert")),
+
+                            IsResolved = reader.GetBoolean(reader.GetOrdinal("IsResolved"))
                         };
                     }
                 }
             }
+
             return null;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using SO_OMS.Application.Interfaces;
 using SO_OMS.Domain.Entities;
 
@@ -20,26 +21,30 @@ namespace SO_OMS.Application.Usecases
 
         public void Execute()
         {
-            var allProducts = _productRepository.Search(null, null, null, false); // 出品状態に関係なく取得
+            var allProducts = _productRepository.Search(null, null, null, false); // 全商品取得
 
             foreach (var product in allProducts)
             {
-                if (product.AlertThreshold.HasValue && product.Stock < product.AlertThreshold.Value)
+                if (!product.AlertThreshold.HasValue) continue;
+
+                if (product.Stock >= product.AlertThreshold.Value) continue;
+
+                var latest = _alertLogRepository.GetLatestAlert(product.ProductID);
+
+                // 最新が null（初回）または「解決済み」ならアラート出す
+                if (latest == null || latest.IsResolved)
                 {
-                    var latest = _alertLogRepository.GetLatestAlert(product.ProductID);
-                    if (latest == null || latest.DetectedAt.Date != DateTime.Today)
+                    var alert = new AlertLog
                     {
-                        var alert = new AlertLog
-                        {
-                            ProductID = product.ProductID,
-                            StockAtAlert = product.Stock,
-                            DetectedAt = DateTime.Now,
-                            IsResolved = false
-                        };
-                        _alertLogRepository.Add(alert);
-                    }
+                        ProductID = product.ProductID,
+                        StockAtAlert = product.Stock,
+                        DetectedAt = DateTime.Now,
+                        IsResolved = false
+                    };
+                    _alertLogRepository.Add(alert);
                 }
             }
         }
+
     }
 }
