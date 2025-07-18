@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SO_OMS.Application.Interfaces;
+using SO_OMS.Application.Usecases;
 using SO_OMS.Application.UseCases;
 using SO_OMS.Infrastructure.Repositories;
 using SO_OMS.Infrastructure.Security;
@@ -30,6 +31,9 @@ namespace SO_OMS
             services.AddSingleton<IProductRepository, SqlProductRepository>();
             // Services  
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddTransient<LoadDashboardAlertsUseCase>();
+            services.AddTransient<ResolveAlertUseCase>();
+            services.AddTransient<CheckProductStockAlertUseCase>();
 
             // UseCase
             services.AddSingleton<LoginUseCase>();

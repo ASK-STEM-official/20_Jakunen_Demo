@@ -1,33 +1,42 @@
-﻿using System;
+﻿using SO_OMS.Application.Interfaces;
+using SO_OMS.Application.Usecases;
+using SO_OMS.Domain.Entities;
+using SO_OMS.Presentation.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using SO_OMS.Application.Interfaces;
-using SO_OMS.Domain.Entities;
-using SO_OMS.Presentation.ViewModels;
 
 namespace SO_OMS.Presentation.Forms
 {
     public partial class DashboardForm : Form
     {
-        private readonly IAlertLogRepository _alertRepository;
+        private readonly LoadDashboardAlertsUseCase _loadAlertsUseCase;
+        private readonly ResolveAlertUseCase _resolveAlertUseCase;
+        private readonly CheckProductStockAlertUseCase _checkAlertsUseCase;
         private readonly IProductRepository _productRepository;
         private List<DashboardAlertViewModel> _alertViewModels;
 
-        public DashboardForm(IAlertLogRepository alertRepository, IProductRepository productRepo)
+        public DashboardForm(
+            LoadDashboardAlertsUseCase loadAlertsUseCase,
+            ResolveAlertUseCase resolveAlertUseCase,
+            CheckProductStockAlertUseCase checkAlertsUseCase,
+            IProductRepository productRepository
+            )
         {
             InitializeComponent();
-            _alertRepository = alertRepository;
+            _loadAlertsUseCase = loadAlertsUseCase;
+            _resolveAlertUseCase = resolveAlertUseCase;
+            _checkAlertsUseCase = checkAlertsUseCase;
+            _productRepository = productRepository;
             Load += DashboardForm_Load;
-            _productRepository = productRepo;
         }
 
         private void DashboardForm_Load(object sender, EventArgs e)
         {
             dataGridView1.AutoGenerateColumns = false;
 
-            _alertViewModels = _alertRepository.GetAll();
-            dataGridView1.DataSource = _alertViewModels;
+            LoadAlerts();
 
             var comboCol = (DataGridViewComboBoxColumn)dataGridView1.Columns["IsResolved"];
             comboCol.DisplayMember = "Text";
@@ -45,6 +54,12 @@ namespace SO_OMS.Presentation.Forms
             dataGridView1.DataError += (s, args) => { args.ThrowException = false; };
         }
 
+        private void LoadAlerts()
+        {
+            _alertViewModels = _loadAlertsUseCase.Execute();
+            dataGridView1.DataSource = _alertViewModels;
+        }
+
         private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (dataGridView1.IsCurrentCellDirty)
@@ -60,15 +75,7 @@ namespace SO_OMS.Presentation.Forms
                 var row = dataGridView1.Rows[e.RowIndex];
                 if (row.DataBoundItem is DashboardAlertViewModel vm)
                 {
-                    var entity = new AlertLog
-                    {
-                        AlertID = vm.AlertID,
-                        ProductID = vm.ProductID,
-                        StockAtAlert = vm.StockAtAlert,
-                        DetectedAt = vm.DetectedAt,
-                        IsResolved = vm.IsResolved
-                    };
-                    _alertRepository.Update(entity);
+                    _resolveAlertUseCase.Execute(vm.AlertID, vm.IsResolved);
                 }
             }
         }
@@ -85,6 +92,13 @@ namespace SO_OMS.Presentation.Forms
                 row.DefaultCellStyle.BackColor = Color.White;
             }
         }
+
+        private void buttonReload_Click(object sender, EventArgs e)
+        {
+            _checkAlertsUseCase.Execute();
+            LoadAlerts();
+        }
+    
 
         private void button1_Click(object sender, EventArgs e)
         {

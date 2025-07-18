@@ -1,10 +1,9 @@
-﻿using SO_OMS.Application.Interfaces;
-using SO_OMS.Domain.Entities;
-using SO_OMS.Presentation.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Windows.Forms;
+using SO_OMS.Application.Interfaces;
+using SO_OMS.Domain.Entities;
+using SO_OMS.Presentation.ViewModels;
 
 namespace SO_OMS.Infrastructure.Repositories
 {
@@ -20,51 +19,92 @@ namespace SO_OMS.Infrastructure.Repositories
         public List<DashboardAlertViewModel> GetAll()
         {
             var result = new List<DashboardAlertViewModel>();
-
-            var command = _connection.CreateCommand();
-            command.CommandText = @"
-        SELECT a.AlertID, a.ProductID, p.ProductName, p.AlertThreshold,
-               a.StockAtAlert, a.DetectedAt, a.IsResolved
-        FROM AlertLogs a
-        INNER JOIN Products p ON a.ProductID = p.ProductID
-        ORDER BY a.DetectedAt DESC";
-
-            using (var reader = command.ExecuteReader())
+            using (var cmd = new SqlCommand("SELECT AlertID, ProductID, StockAtAlert, DetectedAt, IsResolved FROM AlertLogs ORDER BY DetectedAt DESC", _connection))
             {
-                while (reader.Read())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    var alert = new DashboardAlertViewModel
+                    while (reader.Read())
                     {
-                        AlertID = reader.GetInt32(reader.GetOrdinal("AlertID")),
-                        ProductID = reader.GetInt32(reader.GetOrdinal("ProductID")),
-                        ProductName = reader.GetString(reader.GetOrdinal("ProductName")),
-                        AlertThreshold = reader.IsDBNull(reader.GetOrdinal("AlertThreshold"))
-                            ? (int?)null
-                            : reader.GetInt32(reader.GetOrdinal("AlertThreshold")),
-                        StockAtAlert = reader.GetInt32(reader.GetOrdinal("StockAtAlert")),
-                        DetectedAt = reader.GetDateTime(reader.GetOrdinal("DetectedAt")),
-                        IsResolved = reader.GetBoolean(reader.GetOrdinal("IsResolved"))
-                    };
-                    result.Add(alert);
+                        result.Add(new DashboardAlertViewModel
+                        {
+                            AlertID = reader.GetInt32(0),
+                            ProductID = reader.GetInt32(1),
+                            StockAtAlert = reader.GetInt32(2),
+                            DetectedAt = reader.GetDateTime(3),
+                            IsResolved = reader.GetBoolean(4)
+                        });
+                    }
                 }
             }
-
             return result;
         }
 
-
-        public void Update(AlertLog alertLog)
+        public AlertLog GetById(int alertId)
         {
-            var command = _connection.CreateCommand();
-            command.CommandText = @"
-        UPDATE AlertLogs
-        SET IsResolved = @IsResolved
-        WHERE AlertID = @AlertID";
+            using (var cmd = new SqlCommand("SELECT AlertID, ProductID, StockAtAlert, DetectedAt, IsResolved FROM AlertLogs WHERE AlertID = @id", _connection))
+            {
+                cmd.Parameters.AddWithValue("@id", alertId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new AlertLog
+                        {
+                            AlertID = reader.GetInt32(0),
+                            ProductID = reader.GetInt32(1),
+                            StockAtAlert = reader.GetInt32(2),
+                            DetectedAt = reader.GetDateTime(3),
+                            IsResolved = reader.GetBoolean(4)
+                        };
+                    }
+                }
+            }
+            return null;
+        }
 
-            command.Parameters.AddWithValue("@IsResolved", alertLog.IsResolved);
-            command.Parameters.AddWithValue("@AlertID", alertLog.AlertID);
-            command.ExecuteNonQuery();
+        public void Update(AlertLog alert)
+        {
+            using (var cmd = new SqlCommand("UPDATE AlertLogs SET IsResolved = @resolved WHERE AlertID = @id", _connection))
+            {
+                cmd.Parameters.AddWithValue("@resolved", alert.IsResolved);
+                cmd.Parameters.AddWithValue("@id", alert.AlertID);
+                cmd.ExecuteNonQuery();
+            }
+        }
 
+        public void Add(AlertLog alert)
+        {
+            using (var cmd = new SqlCommand("INSERT INTO AlertLogs (ProductID, StockAtAlert, DetectedAt, IsResolved) VALUES (@pid, @stock, @dt, @resolved)", _connection))
+            {
+                cmd.Parameters.AddWithValue("@pid", alert.ProductID);
+                cmd.Parameters.AddWithValue("@stock", alert.StockAtAlert);
+                cmd.Parameters.AddWithValue("@dt", alert.DetectedAt);
+                cmd.Parameters.AddWithValue("@resolved", alert.IsResolved);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public AlertLog GetLatestAlert(int productId)
+        {
+            using (var cmd = new SqlCommand("SELECT TOP 1 AlertID, ProductID, StockAtAlert, DetectedAt, IsResolved FROM AlertLogs WHERE ProductID = @pid ORDER BY DetectedAt DESC", _connection))
+            {
+                cmd.Parameters.AddWithValue("@pid", productId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new AlertLog
+                        {
+                            AlertID = reader.GetInt32(0),
+                            ProductID = reader.GetInt32(1),
+                            StockAtAlert = reader.GetInt32(2),
+                            DetectedAt = reader.GetDateTime(3),
+                            IsResolved = reader.GetBoolean(4)
+                        };
+                    }
+                }
+            }
+            return null;
         }
     }
 }
