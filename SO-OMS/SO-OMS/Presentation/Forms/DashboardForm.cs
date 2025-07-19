@@ -1,4 +1,5 @@
-﻿using SO_OMS.Application.Interfaces;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SO_OMS.Application.Interfaces;
 using SO_OMS.Application.Usecases;
 using SO_OMS.Domain.Entities;
 using SO_OMS.Presentation.ViewModels;
@@ -16,20 +17,23 @@ namespace SO_OMS.Presentation.Forms
         private readonly CheckProductStockAlertUseCase _checkAlertsUseCase;
         private readonly IProductRepository _productRepository;
         private List<DashboardAlertViewModel> _alertViewModels;
+        private readonly IServiceProvider _provider;
 
         public DashboardForm(
             LoadDashboardAlertsUseCase loadAlertsUseCase,
             ResolveAlertUseCase resolveAlertUseCase,
             CheckProductStockAlertUseCase checkAlertsUseCase,
-            IProductRepository productRepository
-            )
+            RegisterProductUseCase registerUseCase,
+            IProductRepository productRepository,
+            IServiceProvider provider
+        )
         {
             InitializeComponent();
             _loadAlertsUseCase = loadAlertsUseCase;
             _resolveAlertUseCase = resolveAlertUseCase;
             _checkAlertsUseCase = checkAlertsUseCase;
             _productRepository = productRepository;
-            Load += DashboardForm_Load;
+            _provider = provider;
         }
 
         private void DashboardForm_Load(object sender, EventArgs e)
@@ -97,10 +101,25 @@ namespace SO_OMS.Presentation.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var productListForm = new ProductListForm(_productRepository);
+            var productListForm = _provider.GetRequiredService<ProductListForm>();
             productListForm.ShowDialog();
             _checkAlertsUseCase.Execute();
             LoadAlerts();
         }
+
+        private class ComboBoxItem
+        {
+            public string Display { get; }
+            public int? Value { get; }
+
+            public ComboBoxItem(string display, int? value)
+            {
+                Display = display;
+                Value = value;
+            }
+
+            public override string ToString() => Display;
+        }
+
     }
 }

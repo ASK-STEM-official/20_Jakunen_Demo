@@ -7,6 +7,7 @@ using SO_OMS.Infrastructure.Repositories;
 using SO_OMS.Infrastructure.Security;
 using SO_OMS.Infrastructure.Utils;
 using SO_OMS.Presentation.Forms;
+using SO_OMS.Presentation.ViewModels;
 using System.Data.SqlClient;
 
 namespace SO_OMS
@@ -39,11 +40,21 @@ namespace SO_OMS
             services.AddTransient<ResolveAlertUseCase>();
             services.AddTransient<CheckProductStockAlertUseCase>();
             services.AddSingleton<LoginUseCase>();
+            services.AddSingleton<ListProductsUseCase>();
+            services.AddSingleton<GetProductDetailUseCase>();
+            services.AddSingleton<RegisterProductUseCase>();
+            services.AddSingleton<UpdateProductUseCase>();
+            // ViewModels
+            services.AddSingleton<ProductListViewModel>();
 
             // Forms
             services.AddSingleton<LoginForm>();
             services.AddSingleton<DashboardForm>();
             services.AddSingleton<ProductListForm>();
+
+            services.AddTransient<ProductDetailForm>();
+            services.AddTransient<ProductRegisterForm>();
+
 
             return services.BuildServiceProvider();
         }
