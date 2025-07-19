@@ -1,34 +1,46 @@
 ﻿using SO_OMS.Application.Interfaces;
+using SO_OMS.Application.Usecases;
 using SO_OMS.Domain.Entities;
 using SO_OMS.Presentation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using SO_OMS.Domain.Utils;
+using Microsoft.Extensions.DependencyInjection;
+
 
 namespace SO_OMS.Presentation.Forms
 {
     public partial class ProductListForm : Form
     {
         private readonly IProductRepository _productRepository;
-        private readonly ProductListViewModel viewModel = new ProductListViewModel();
+        private readonly IServiceProvider _provider;
+        private readonly ProductListViewModel _viewModel;
+        private readonly UpdateProductUseCase _updateUseCase;
 
-
-        public ProductListForm(IProductRepository productRepository)
+        public ProductListForm(
+            IProductRepository productRepository, 
+            ProductListViewModel viewModel, 
+            UpdateProductUseCase updateUseCase, 
+            IServiceProvider provider
+            )
         {
             InitializeComponent();
             _productRepository = productRepository;
+            _viewModel = viewModel;
+            _updateUseCase = updateUseCase;
+            _provider = provider;
             Load += ProductListForm_Load;
         }
 
         private void ProductListForm_Load(object sender, EventArgs e)
         {
-            comboBoxCategory.Items.Clear();
-            comboBoxCategory.Items.Add(new ComboBoxItem("すべて", null));
-            comboBoxCategory.Items.Add(new ComboBoxItem("食品", 1));
-            comboBoxCategory.Items.Add(new ComboBoxItem("雑貨", 2));
-            comboBoxCategory.Items.Add(new ComboBoxItem("その他", 3));
-            comboBoxCategory.SelectedIndex = 0;
+            comboBoxCategory.DataSource = CategoryResolver.GetAll()
+                .Prepend(new KeyValuePair<int, string>(0, "すべて"))
+                .ToList();
+            comboBoxCategory.DisplayMember = "Value";
+            comboBoxCategory.ValueMember = "Key";
 
             checkBoxIsPublished.Checked = true;
             LoadProducts();
@@ -36,40 +48,18 @@ namespace SO_OMS.Presentation.Forms
 
         private void LoadProducts()
         {
-            string keywordId = textBoxProductID.Text.Trim();
-            string keywordName = textBoxProductName.Text.Trim();
-            int? categoryId = (comboBoxCategory.SelectedItem as ComboBoxItem)?.Value;
-            bool isPublishedOnly = checkBoxIsPublished.Checked;
+            _viewModel.SearchProductId = textBoxProductID.Text.Trim();
+            _viewModel.SearchProductName = textBoxProductName.Text.Trim();
+            _viewModel.SearchCategory = (comboBoxCategory.SelectedValue?.ToString() == "0") ? null : comboBoxCategory.SelectedValue?.ToString();
+            _viewModel.ShowOnlyPublished = checkBoxIsPublished.Checked;
 
-            var products = _productRepository.Search(keywordId, keywordName, categoryId, isPublishedOnly);
-
-            viewModel.Products = products.Select(p => new ProductViewModel
-            {
-                ProductID = p.ProductID,
-                ProductName = p.ProductName,
-                Price = p.Price,
-                Stock = p.Stock,
-                Category = GetCategoryName(p.CategoryID),
-                Description = p.Description,
-                IsPublished = p.IsPublished
-            }).ToList();
+            _viewModel.LoadProducts();
 
             dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.DataSource = viewModel.Products;
+            dataGridView1.DataSource = _viewModel.Products;
 
-            labelCount.Text = $"{viewModel.ResultCount} 件";
+            labelCount.Text = $"{_viewModel.ResultCount} 件";
         }
-
-        private string GetCategoryName(int categoryId)
-        {
-            switch (categoryId)
-            {
-                case 1: return "食品";
-                case 2: return "雑貨";
-                default: return "その他";
-            }
-        }
-
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
@@ -98,21 +88,32 @@ namespace SO_OMS.Presentation.Forms
             {
                 if (dataGridView1.Rows[e.RowIndex].DataBoundItem is ProductViewModel vm)
                 {
-                    var product = _productRepository.GetById(vm.ProductID);
-                    if (product != null)
-                    {
-                        var detailForm = new ProductDetailForm(_productRepository, product);
-                        detailForm.ShowDialog();
-                        LoadProducts();
-                    }
+                    var detailViewModel = new ProductDetailViewModel(vm, isEditMode: true);
+
+                    var detailForm = ActivatorUtilities.CreateInstance<ProductDetailForm>(
+                        _provider,
+                        detailViewModel,
+                        _updateUseCase
+                    );
+
+                    detailForm.ShowDialog();
+                    LoadProducts();
                 }
             }
         }
 
+
+
         private void RegisterButton_Click(object sender, EventArgs e)
         {
-            var registerForm = new ProductRegisterForm(_productRepository);
+            var registerForm = ActivatorUtilities.CreateInstance<ProductRegisterForm>(
+                _provider
+            );
+
             registerForm.ShowDialog();
+            LoadProducts();
         }
+
+
     }
 }
