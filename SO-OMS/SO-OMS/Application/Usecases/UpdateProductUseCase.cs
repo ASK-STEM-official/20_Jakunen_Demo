@@ -9,33 +9,32 @@ namespace SO_OMS.Application.Usecases
     public class UpdateProductUseCase
     {
         private readonly IProductRepository _productRepository;
-        private readonly StockAlertDomainService _alertService;
         private readonly IAlertLogRepository _alertLogRepository;
+        private readonly StockAlertDomainService _alertService;
+        private readonly ProductValidationService _validationService;
 
         public UpdateProductUseCase(
             IProductRepository productRepository,
+            IAlertLogRepository alertLogRepository,
             StockAlertDomainService alertService,
-            IAlertLogRepository alertLogRepository)
+            ProductValidationService validationService
+            )
+
         {
             _productRepository = productRepository;
-            _alertService = alertService;
             _alertLogRepository = alertLogRepository;
+            _alertService = alertService;
+            _validationService = validationService;
+
         }
 
-        public void Execute(ProductViewModel viewModel)
+        public void Execute(Product product)
         {
-            var product = new Product
+            var result = _validationService.Validate(product);
+            if (!result.IsValid)
             {
-                ProductID = viewModel.ProductID,
-                ProductName = viewModel.ProductName,
-                Description = viewModel.Description,
-                Price = viewModel.Price,
-                Stock = viewModel.Stock,
-                CategoryID = ParseCategoryId(viewModel.Category),
-                IsPublished = viewModel.IsPublished,
-                AlertThreshold = viewModel.AlertThreshold
-            };
-
+                throw new ValidationException(result.Errors);
+            }
             _productRepository.Update(product);
 
             if (_alertService.NeedsStockAlert(product))
@@ -55,13 +54,6 @@ namespace SO_OMS.Application.Usecases
                     _alertLogRepository.Add(newAlert);
                 }
             }
-        }
-
-        private int ParseCategoryId(string categoryName)
-        {
-            if (categoryName == "食品") return 1;
-            if (categoryName == "雑貨") return 2;
-            return 3;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using SO_OMS.Application.Usecases;
+using SO_OMS.Domain.Entities;
 using SO_OMS.Domain.Utils;
 using SO_OMS.Presentation.ViewModels;
 using System;
-using System.Windows.Forms;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace SO_OMS.Presentation.Forms
 {
@@ -45,60 +46,33 @@ namespace SO_OMS.Presentation.Forms
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (!ValidateForm()) return;
-
-            _viewModel.UpdateFromForm(
-                textBoxProductName.Text.Trim(),
-                textBoxDescription.Text.Trim(),
-                numericPrice.Value,
-                (int)numericStock.Value,
-                checkBoxPublished.Checked
-            );
-            _viewModel.Product.AlertThreshold = (int?)numericThreshold.Value;
-            _viewModel.Product.Category = CategoryResolver.GetName((int)comboBoxCategory.SelectedValue);
-
-
             try
             {
-                _updateUseCase.Execute(_viewModel.Product);
+                var product = new Product
+                {
+                    ProductID = int.Parse(labelProductID.Text), // 既存のID
+                    ProductName = textBoxProductName.Text.Trim(),
+                    Description = textBoxDescription.Text.Trim(),
+                    Price = numericPrice.Value,
+                    Stock = (int)numericStock.Value,
+                    AlertThreshold = (int?)numericThreshold.Value,
+                    IsPublished = checkBoxPublished.Checked,
+                    CategoryID = (int)comboBoxCategory.SelectedValue
+                };
+
+                _updateUseCase.Execute(product);
                 MessageBox.Show("商品情報を更新しました。", "完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Close();
+            }
+            catch (ValidationException ex)
+            {
+                MessageBox.Show(string.Join("\n", ex.Errors), "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("更新に失敗しました：" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private bool ValidateForm()
-        {
-            if (string.IsNullOrWhiteSpace(textBoxProductName.Text))
-            {
-                MessageBox.Show("商品名は必須です。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            if (numericPrice.Value <= 0)
-            {
-                MessageBox.Show("価格は1円以上で入力してください。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            if (numericStock.Value < 0)
-            {
-                MessageBox.Show("在庫数は0以上を入力してください。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            if (numericThreshold.Value < 0)
-            {
-                MessageBox.Show("在庫アラートしきい値は0以上を入力してください。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            return true;
-        }
-
 
         private void buttonClose_Click(object sender, EventArgs e)
         {

@@ -29,7 +29,7 @@ namespace SO_OMS
 
             // DomainServices
             services.AddSingleton<StockAlertDomainService>();
-
+            services.AddSingleton<ProductValidationService>();
             // Repository  
             services.AddSingleton<IAdminRepository, SqlAdminRepository>();
             services.AddSingleton<IAlertLogRepository, SqlAlertLogRepository>();
