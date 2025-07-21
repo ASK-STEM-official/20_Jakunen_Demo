@@ -63,12 +63,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Interfaces\IOrderReservationRepository.cs" />
     <Compile Include="Application\Interfaces\IProductRepository.cs" />
     <Compile Include="Application\Interfaces\IAdminRepository.cs" />
     <Compile Include="Application\Interfaces\IAlertLogRepository.cs" />
     <Compile Include="Application\Interfaces\IPasswordHasher.cs" />
     <Compile Include="Application\Usecases\CheckProductStockAlertUseCase.cs" />
     <Compile Include="Application\Usecases\GetProductDetailUseCase.cs" />
+    <Compile Include="Application\Usecases\ListOrdersUseCase.cs" />
     <Compile Include="Application\Usecases\ListProductsUseCase.cs" />
     <Compile Include="Application\Usecases\LoadDashboardAlertsUseCase.cs" />
     <Compile Include="Application\Usecases\LoginUseCase.cs" />
@@ -76,6 +78,8 @@
     <Compile Include="Application\Usecases\ResolveAlertUseCase.cs" />
     <Compile Include="Application\Usecases\UpdateProductUseCase.cs" />
     <Compile Include="BootStrapper.cs" />
+    <Compile Include="Domain\Entities\OrderReservation.cs" />
+    <Compile Include="Domain\Entities\OrderReservationItem.cs" />
     <Compile Include="Domain\Services\ProductValidationService.cs" />
     <Compile Include="Domain\Services\StockAlertDomainService.cs" />
     <Compile Include="Domain\Entities\Admin.cs" />
@@ -83,15 +87,23 @@
     <Compile Include="Domain\Entities\Product.cs" />
     <Compile Include="Infrastructure\Repositories\SqlAdminRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SqlAlertLogRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\SqlOrderReservationRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SqlProductRepository.cs" />
     <Compile Include="Infrastructure\Security\PasswordHasher.cs" />
     <Compile Include="Infrastructure\Utils\CategoryResolver.cs" />
     <Compile Include="Infrastructure\Utils\ConfigManager.cs" />
+    <Compile Include="Infrastructure\Utils\OrderStatusResolver.cs" />
     <Compile Include="Presentation\Forms\DashboardForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Presentation\Forms\DashboardForm.Designer.cs">
       <DependentUpon>DashboardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Forms\OrderReservationListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Forms\OrderReservationListForm.Designer.cs">
+      <DependentUpon>OrderReservationListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Forms\ProductRegisterForm.cs">
       <SubType>Form</SubType>
@@ -116,6 +128,8 @@
     </Compile>
     <Compile Include="Presentation\ViewModels\DashboardAlertViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\OrderListViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\OrderReservationListViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProductDetailViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProductListViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProductViewModel.cs" />
@@ -126,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Forms\OrderReservationListForm.resx">
+      <DependentUpon>OrderReservationListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Forms\ProductDetailForm.resx">
       <DependentUpon>ProductDetailForm.cs</DependentUpon>
