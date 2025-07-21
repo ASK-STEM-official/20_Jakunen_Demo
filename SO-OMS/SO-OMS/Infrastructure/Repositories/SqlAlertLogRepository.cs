@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using SO_OMS.Application.Interfaces;
 using SO_OMS.Domain.Entities;
+using SO_OMS.Application.DTOs;
 using SO_OMS.Presentation.ViewModels;
 
 namespace SO_OMS.Infrastructure.Repositories
@@ -16,28 +17,44 @@ namespace SO_OMS.Infrastructure.Repositories
             _connection = connection;
         }
 
-        public List<DashboardAlertViewModel> GetAll()
+        public List<DashboardAlertDto> GetDashboardAlerts()
         {
-            var result = new List<DashboardAlertViewModel>();
-            using (var cmd = new SqlCommand("SELECT AlertID, ProductID, StockAtAlert, DetectedAt, IsResolved FROM AlertLogs ORDER BY DetectedAt DESC", _connection))
+            var results = new List<DashboardAlertDto>();
+
+            using (var cmd = new SqlCommand(@"
+            SELECT 
+                a.AlertID,
+                a.ProductID,
+                a.DetectedAt,
+                a.StockAtAlert,
+                a.IsResolved,
+                p.AlertThreshold
+            FROM AlertLogs a
+            LEFT JOIN Products p ON a.ProductID = p.ProductID
+            ORDER BY a.DetectedAt DESC
+            ", _connection))
+
             {
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        result.Add(new DashboardAlertViewModel
+                        results.Add(new DashboardAlertDto
                         {
                             AlertID = reader.GetInt32(0),
                             ProductID = reader.GetInt32(1),
-                            StockAtAlert = reader.GetInt32(2),
-                            DetectedAt = reader.GetDateTime(3),
-                            IsResolved = reader.GetBoolean(4)
+                            DetectedAt = reader.GetDateTime(2),
+                            StockAtAlert = reader.IsDBNull(3) ? (int?)null : reader.GetInt32(3),
+                            IsResolved = reader.GetBoolean(4),
+                            AlertThreshold = reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5)
                         });
                     }
                 }
             }
-            return result;
+
+            return results;
         }
+
 
         public AlertLog GetById(int alertId)
         {

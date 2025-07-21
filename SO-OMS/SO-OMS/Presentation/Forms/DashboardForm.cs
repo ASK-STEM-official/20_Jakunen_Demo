@@ -62,7 +62,14 @@ namespace SO_OMS.Presentation.Forms
 
         private void LoadAlerts()
         {
-            _alertViewModels = _loadAlertsUseCase.Execute();
+            var alertDtos = _loadAlertsUseCase.Execute();
+
+            if (alertDtos.Count == 0)
+            {
+                MessageBox.Show("DTOが0件です");
+            }
+
+            _alertViewModels = alertDtos.ConvertAll(DashboardAlertViewModel.FromDto);
             dataGridView1.DataSource = _alertViewModels;
         }
 

@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\DTOs\DashboardAlertDto.cs" />
     <Compile Include="Application\Interfaces\IProductRepository.cs" />
     <Compile Include="Application\Interfaces\IAdminRepository.cs" />
     <Compile Include="Application\Interfaces\IAlertLogRepository.cs" />

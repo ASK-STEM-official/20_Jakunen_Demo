@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using SO_OMS.Domain.Entities;
-using SO_OMS.Presentation.ViewModels;
+using SO_OMS.Application.DTOs;
 
 namespace SO_OMS.Application.Interfaces
 {
     public interface IAlertLogRepository
     {
-        List<DashboardAlertViewModel> GetAll();
+        List<DashboardAlertDto> GetDashboardAlerts();
         AlertLog GetById(int alertId);
         void Update(AlertLog alert);
         void Add(AlertLog alert);
