@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using SO_OMS.Application.Interfaces;
 using SO_OMS.Domain.Entities;
 using SO_OMS.Application.DTOs;
-using SO_OMS.Presentation.ViewModels;
 
 namespace SO_OMS.Infrastructure.Repositories
 {

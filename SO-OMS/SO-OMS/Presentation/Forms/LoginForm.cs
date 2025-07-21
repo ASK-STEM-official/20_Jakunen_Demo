@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
-using SO_OMS.Infrastructure.Repositories;
 using SO_OMS.Presentation.ViewModels;
-using SO_OMS.Presentation.Forms;
 using SO_OMS.Application.Usecases.Auth;
 
 namespace SO_OMS.Presentation.Forms

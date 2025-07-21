@@ -1,5 +1,4 @@
 ﻿using SO_OMS.Application.Interfaces;
-using SO_OMS.Domain.Entities;
 
 namespace SO_OMS.Application.Usecases.Alert
 {
