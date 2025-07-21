@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Windows.Forms;
-using Infrastructure.Repositories;
-using Application.UseCases;
-using Presentation.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using SO_OMS.Infrastructure.Repositories;
+using SO_OMS.Presentation.ViewModels;
+using SO_OMS.Presentation.Forms;
+using SO_OMS.Application.Usecases.Auth;
 
-namespace Presentation.Forms
+namespace SO_OMS.Presentation.Forms
 {
     public partial class LoginForm : Form
     {
@@ -18,18 +20,19 @@ namespace Presentation.Forms
         private TextBox txtPassword;
         private Button btnLogin;
         private LoginViewModel _viewModel;
+        private readonly LoginUseCase _loginUseCase;
+        private readonly IServiceProvider _provider;
 
-        public LoginForm()
+
+        public LoginForm(LoginUseCase loginUseCase, IServiceProvider provider)
         {
+            _loginUseCase = loginUseCase;
+            _provider = provider;
             InitializeComponent();
-
-            // DB接続とViewModelの初期化
-            var connection = new SqlConnection("Server=localhost;Database=OliveShopDB;Trusted_Connection=True;");
-            connection.Open();
-            var repo = new SqlAdminRepository(connection);
-            var useCase = new LoginUseCase(repo);
-            _viewModel = new LoginViewModel(useCase);
+            _viewModel = new LoginViewModel(_loginUseCase);
         }
+
+
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
@@ -41,8 +44,12 @@ namespace Presentation.Forms
             if (result)
             {
                 MessageBox.Show("ログイン成功！");
-                // TODO: 次の画面に遷移する処理をここに追加
+                var dashboard = _provider.GetRequiredService<DashboardForm>();
+                dashboard.Show();
+                this.Hide();
+                dashboard.FormClosed += (s, args) => this.Close();
             }
+
             else
             {
                 MessageBox.Show("ログイン失敗: " + _viewModel.ErrorMessage,
@@ -52,58 +59,80 @@ namespace Presentation.Forms
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.label1 = new Label();
-            this.label2 = new Label();
-            this.label3 = new Label();
-            this.label4 = new Label();
-            this.txtUsername = new TextBox();
-            this.txtPassword = new TextBox();
-            this.btnLogin = new Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.btnLogin = new System.Windows.Forms.Button();
             this.SuspendLayout();
-
+            // 
             // label1
+            // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("MS UI Gothic", 15F);
             this.label1.Location = new System.Drawing.Point(77, 111);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(255, 20);
+            this.label1.TabIndex = 6;
             this.label1.Text = "さぬきオリーブ受注管理システム";
-
+            // 
             // label2
+            // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("MS UI Gothic", 30F);
             this.label2.Location = new System.Drawing.Point(112, 71);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(171, 40);
+            this.label2.TabIndex = 5;
             this.label2.Text = "SO-OMS";
-
+            // 
             // label3
+            // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(79, 174);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(57, 12);
+            this.label3.TabIndex = 4;
             this.label3.Text = "ユーザー名";
-
+            // 
             // label4
+            // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(79, 219);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(52, 12);
+            this.label4.TabIndex = 3;
             this.label4.Text = "パスワード";
-
+            // 
             // txtUsername
+            // 
             this.txtUsername.Location = new System.Drawing.Point(142, 171);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(152, 19);
-
+            this.txtUsername.TabIndex = 0;
+            // 
             // txtPassword
+            // 
             this.txtPassword.Location = new System.Drawing.Point(142, 216);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(152, 19);
             this.txtPassword.PasswordChar = '*';
-
+            this.txtPassword.Size = new System.Drawing.Size(152, 19);
+            this.txtPassword.TabIndex = 1;
+            // 
             // btnLogin
+            // 
             this.btnLogin.Location = new System.Drawing.Point(159, 274);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
+            this.btnLogin.TabIndex = 2;
             this.btnLogin.Text = "ログイン";
             this.btnLogin.UseVisualStyleBackColor = true;
-            this.btnLogin.Click += new EventHandler(this.btnLogin_Click);
-
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            // 
             // LoginForm
+            // 
             this.ClientSize = new System.Drawing.Size(399, 364);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPassword);
@@ -116,6 +145,7 @@ namespace Presentation.Forms
             this.Text = "ログイン";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
     }
 }

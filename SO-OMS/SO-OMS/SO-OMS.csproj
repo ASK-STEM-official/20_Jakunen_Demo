@@ -33,11 +33,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.7, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.7\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=9.0.0.7, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.9.0.7\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.7, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.7\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -46,19 +63,96 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Interfaces\IOrderReservationRepository.cs" />
+    <Compile Include="Application\DTOs\DashboardAlertDto.cs" />
+    <Compile Include="Application\Interfaces\IProductRepository.cs" />
     <Compile Include="Application\Interfaces\IAdminRepository.cs" />
-    <Compile Include="Application\Usecases\LoginUseCase.cs" />
+    <Compile Include="Application\Interfaces\IAlertLogRepository.cs" />
+    <Compile Include="Application\Interfaces\IPasswordHasher.cs" />
+    <Compile Include="Application\Usecases\Alert\CheckProductStockAlertUseCase.cs" />
+    <Compile Include="Application\Usecases\Products\GetProductDetailUseCase.cs" />
+    <Compile Include="Application\Usecases\Order\ListOrdersUseCase.cs" />
+    <Compile Include="Application\Usecases\Products\ListProductsUseCase.cs" />
+    <Compile Include="Application\Usecases\Alert\LoadDashboardAlertsUseCase.cs" />
+    <Compile Include="Application\Usecases\Auth\LoginUseCase.cs" />
+    <Compile Include="Application\Usecases\Products\RegisterProductUseCase.cs" />
+    <Compile Include="Application\Usecases\Alert\ResolveAlertUseCase.cs" />
+    <Compile Include="Application\Usecases\Products\UpdateProductUseCase.cs" />
+    <Compile Include="BootStrapper.cs" />
+    <Compile Include="Domain\Entities\OrderReservation.cs" />
+    <Compile Include="Domain\Entities\OrderReservationItem.cs" />
+    <Compile Include="Domain\Services\ProductValidationService.cs" />
+    <Compile Include="Domain\Services\StockAlertDomainService.cs" />
     <Compile Include="Domain\Entities\Admin.cs" />
+    <Compile Include="Domain\Entities\AlertLog.cs" />
+    <Compile Include="Domain\Entities\Product.cs" />
     <Compile Include="Infrastructure\Repositories\SqlAdminRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\SqlAlertLogRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\SqlOrderReservationRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\SqlProductRepository.cs" />
     <Compile Include="Infrastructure\Security\PasswordHasher.cs" />
+    <Compile Include="Infrastructure\Utils\CategoryResolver.cs" />
+    <Compile Include="Infrastructure\Utils\ConfigManager.cs" />
+    <Compile Include="Infrastructure\Utils\OrderStatusResolver.cs" />
+    <Compile Include="Presentation\Forms\DashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Forms\DashboardForm.Designer.cs">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Forms\OrderReservationListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Forms\OrderReservationListForm.Designer.cs">
+      <DependentUpon>OrderReservationListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Forms\ProductRegisterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Forms\ProductRegisterForm.Designer.cs">
+      <DependentUpon>ProductRegisterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Forms\ProductDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Forms\ProductDetailForm.Designer.cs">
+      <DependentUpon>ProductDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Forms\ProductListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Forms\ProductListForm.Designer.cs">
+      <DependentUpon>ProductListForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Presentation\ViewModels\DashboardAlertViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\OrderListViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\OrderReservationListViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\ProductDetailViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\ProductListViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\ProductViewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Presentation\Forms\DashboardForm.resx">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Forms\OrderReservationListForm.resx">
+      <DependentUpon>OrderReservationListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Forms\ProductDetailForm.resx">
+      <DependentUpon>ProductDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Forms\ProductListForm.resx">
+      <DependentUpon>ProductListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Forms\ProductRegisterForm.resx">
+      <DependentUpon>ProductRegisterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -69,6 +163,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
