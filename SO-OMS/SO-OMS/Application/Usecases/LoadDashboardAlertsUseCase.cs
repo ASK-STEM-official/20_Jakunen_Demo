@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using SO_OMS.Application.Interfaces;
-using SO_OMS.Presentation.ViewModels;
+using SO_OMS.Application.DTOs;
 
 namespace SO_OMS.Application.Usecases
 {
     public class LoadDashboardAlertsUseCase
     {
-        private readonly IAlertLogRepository _alertRepository;
+        private readonly IAlertLogRepository _alertLogRepository;
 
-        public LoadDashboardAlertsUseCase(IAlertLogRepository alertRepository)
+        public LoadDashboardAlertsUseCase(IAlertLogRepository alertLogRepository)
         {
-            _alertRepository = alertRepository;
+            _alertLogRepository = alertLogRepository;
         }
 
-        public List<DashboardAlertViewModel> Execute()
+        public List<DashboardAlertDto> Execute()
         {
-            return _alertRepository.GetAll();
+            return _alertLogRepository.GetDashboardAlerts();
         }
     }
 }

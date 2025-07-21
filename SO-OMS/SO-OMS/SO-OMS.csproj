@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\Interfaces\IOrderReservationRepository.cs" />
+    <Compile Include="Application\DTOs\DashboardAlertDto.cs" />
     <Compile Include="Application\Interfaces\IProductRepository.cs" />
     <Compile Include="Application\Interfaces\IAdminRepository.cs" />
     <Compile Include="Application\Interfaces\IAlertLogRepository.cs" />
