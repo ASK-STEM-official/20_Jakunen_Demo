@@ -1,4 +1,4 @@
-﻿using SO_OMS.Application.Usecases;
+﻿using SO_OMS.Application.Usecases.Order;
 using SO_OMS.Domain.Entities;
 using SO_OMS.Domain.Utils;
 using System;

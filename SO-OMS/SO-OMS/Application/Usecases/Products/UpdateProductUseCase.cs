@@ -4,7 +4,7 @@ using SO_OMS.Domain.Services;
 using SO_OMS.Presentation.ViewModels;
 using System;
 
-namespace SO_OMS.Application.Usecases
+namespace SO_OMS.Application.Usecases.Products
 {
     public class UpdateProductUseCase
     {

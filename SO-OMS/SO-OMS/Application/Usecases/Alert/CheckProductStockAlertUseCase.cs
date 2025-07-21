@@ -3,7 +3,7 @@ using SO_OMS.Application.Interfaces;
 using SO_OMS.Domain.Entities;
 using SO_OMS.Domain.Services;
 
-namespace SO_OMS.Application.Usecases
+namespace SO_OMS.Application.Usecases.Alert
 {
     public class CheckProductStockAlertUseCase
     {

@@ -2,7 +2,7 @@
 using SO_OMS.Application.Interfaces;
 using SO_OMS.Application.DTOs;
 
-namespace SO_OMS.Application.Usecases
+namespace SO_OMS.Application.Usecases.Alert
 {
     public class LoadDashboardAlertsUseCase
     {

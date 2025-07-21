@@ -1,4 +1,4 @@
-using SO_OMS.Application.Usecases;
+using SO_OMS.Application.Usecases.Products;
 using SO_OMS.Domain.Utils;
 using System.Collections.Generic;
 using System.Linq;

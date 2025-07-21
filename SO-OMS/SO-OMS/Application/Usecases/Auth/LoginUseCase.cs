@@ -3,7 +3,7 @@ using SO_OMS.Domain.Entities;
 using SO_OMS.Infrastructure.Security;
 using System;
 
-namespace SO_OMS.Application.UseCases
+namespace SO_OMS.Application.Usecases.Auth
 {
     public class LoginUseCase
     {

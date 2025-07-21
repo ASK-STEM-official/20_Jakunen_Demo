@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SO_OMS.Application.Interfaces;
 using SO_OMS.Application.Usecases;
-using SO_OMS.Application.UseCases;
+using SO_OMS.Application.Usecases.Alert;
+using SO_OMS.Application.Usecases.Auth;
+using SO_OMS.Application.Usecases.Order;
+using SO_OMS.Application.Usecases.Products;
 using SO_OMS.Domain.Services;
 using SO_OMS.Infrastructure.Repositories;
 using SO_OMS.Infrastructure.Security;

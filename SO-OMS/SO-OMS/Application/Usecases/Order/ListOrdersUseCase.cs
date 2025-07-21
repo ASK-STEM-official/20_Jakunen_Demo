@@ -3,7 +3,7 @@ using SO_OMS.Domain.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace SO_OMS.Application.Usecases
+namespace SO_OMS.Application.Usecases.Order
 {
     public class ListOrdersUseCase
     {

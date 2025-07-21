@@ -2,7 +2,7 @@
 using SO_OMS.Application.Interfaces;
 using System.Collections.Generic;
 
-namespace SO_OMS.Application.Usecases
+namespace SO_OMS.Application.Usecases.Products
 {
     public class ListProductsUseCase
     {

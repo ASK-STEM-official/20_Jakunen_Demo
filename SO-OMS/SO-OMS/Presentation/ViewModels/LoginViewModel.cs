@@ -1,4 +1,4 @@
-﻿using SO_OMS.Application.UseCases;
+﻿using SO_OMS.Application.Usecases.Auth;
 using System;
 using System.ComponentModel;
 
