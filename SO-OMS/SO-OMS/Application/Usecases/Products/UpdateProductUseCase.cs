@@ -1,7 +1,6 @@
 ﻿using SO_OMS.Application.Interfaces;
 using SO_OMS.Domain.Entities;
 using SO_OMS.Domain.Services;
-using SO_OMS.Presentation.ViewModels;
 using System;
 
 namespace SO_OMS.Application.Usecases.Products

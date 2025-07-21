@@ -1,6 +1,4 @@
-﻿using SO_OMS.Application.Interfaces;
-using SO_OMS.Application.Usecases.Products;
-using SO_OMS.Domain.Entities;
+﻿using SO_OMS.Application.Usecases.Products;
 using SO_OMS.Presentation.ViewModels;
 using System;
 using System.Collections.Generic;

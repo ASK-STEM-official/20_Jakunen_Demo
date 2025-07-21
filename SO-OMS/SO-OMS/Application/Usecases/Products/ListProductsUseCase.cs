@@ -1,5 +1,4 @@
 ﻿using SO_OMS.Domain.Entities;
-using SO_OMS.Application.Interfaces;
 using System.Collections.Generic;
 
 namespace SO_OMS.Application.Usecases.Products

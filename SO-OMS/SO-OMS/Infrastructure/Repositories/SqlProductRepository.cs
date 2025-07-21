@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using SO_OMS.Application.Interfaces;
 using SO_OMS.Domain.Entities;
 
 namespace SO_OMS.Infrastructure.Repositories

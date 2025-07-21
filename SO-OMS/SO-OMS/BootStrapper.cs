@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SO_OMS.Application.Interfaces;
-using SO_OMS.Application.Usecases;
 using SO_OMS.Application.Usecases.Alert;
 using SO_OMS.Application.Usecases.Auth;
 using SO_OMS.Application.Usecases.Order;
