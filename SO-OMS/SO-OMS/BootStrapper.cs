@@ -34,6 +34,8 @@ namespace SO_OMS
             services.AddSingleton<IAdminRepository, SqlAdminRepository>();
             services.AddSingleton<IAlertLogRepository, SqlAlertLogRepository>();
             services.AddSingleton<IProductRepository, SqlProductRepository>();
+            services.AddSingleton<IOrderReservationRepository, SqlOrderReservationRepository>();
+
             // Usecase  
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddTransient<LoadDashboardAlertsUseCase>();
@@ -44,17 +46,19 @@ namespace SO_OMS
             services.AddSingleton<GetProductDetailUseCase>();
             services.AddSingleton<RegisterProductUseCase>();
             services.AddSingleton<UpdateProductUseCase>();
+            services.AddSingleton<ListOrdersUseCase>();
             // ViewModels
             services.AddSingleton<ProductListViewModel>();
+            services.AddSingleton<ProductDetailViewModel>();
+            services.AddSingleton<OrderReservationListViewModel>();
 
             // Forms
             services.AddSingleton<LoginForm>();
             services.AddSingleton<DashboardForm>();
             services.AddSingleton<ProductListForm>();
-
             services.AddTransient<ProductDetailForm>();
             services.AddTransient<ProductRegisterForm>();
-
+            services.AddTransient<OrderReservationListForm>();
 
             return services.BuildServiceProvider();
         }

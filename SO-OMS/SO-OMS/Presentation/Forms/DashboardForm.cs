@@ -121,5 +121,12 @@ namespace SO_OMS.Presentation.Forms
             public override string ToString() => Display;
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var OrderReservationListForm = _provider.GetRequiredService<OrderReservationListForm>();
+            OrderReservationListForm.ShowDialog();
+            _checkAlertsUseCase.Execute();
+            LoadAlerts();
+        }
     }
 }
